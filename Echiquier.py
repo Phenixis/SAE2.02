@@ -3,9 +3,9 @@
 Une classe Python pour creer et manipuler des graphes
 """
 
-[5, 6] -> 'e6'
+# [5, 6] -> 'e6'
 
-class Graphe(object):
+class Echiquier(object):
 
     def __init__(self, graphe_dict=None):
         """ initialise un objet graphe.
