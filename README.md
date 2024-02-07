@@ -18,6 +18,8 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
   - [ ] ...
 - [ ] Créer une classe Chemin
   - [ ] C'est un graphe
+- [ ] Créer une classe AllChemins
+  - [ ] Tous les Chemin possibles à partir d'une case
 - [ ] Créer un échiquier en console
 - [ ] Créer une fonction renvoyant les cases accessibles par un mouvement de cavalier
 - [ ] Créer le programme principal
