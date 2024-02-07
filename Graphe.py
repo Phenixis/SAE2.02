@@ -3,6 +3,7 @@
 Une classe Python pour creer et manipuler des graphes
 """
 
+[5, 6] -> 'e6'
 
 class Graphe(object):
 

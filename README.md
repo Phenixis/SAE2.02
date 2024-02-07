@@ -6,8 +6,18 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
 
 ### Sous-étapes
 
-- [ ] Créer une classe Graphe
+- [ ] Créer une classe Case
+  - x (int) : coordonnée x
+  - y (int) : coordonnée y
+  - parcourue (bool) : True si parcourue, sinon False
+  - [ ] getCoordonnéesEchec : renvoie les coordonnées de la case en format échiquier ([1, 6] -> 'a6')
+  - [ ] ...
+- [ ] Créer une classe Échiquier
+  - un dictionnaire {case (Instance de Case) : list[Case] (liste de Case)}
+  - [ ] Func : Pour chaque sommet, liste de liens vers un sommet joignable grâce à un mouvement de cavalier
+  - [ ] ...
 - [ ] Créer une classe Chemin
+  - [ ] C'est un graphe
 - [ ] Créer un échiquier en console
 - [ ] Créer une fonction renvoyant les cases accessibles par un mouvement de cavalier
 - [ ] Créer le programme principal
