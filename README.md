@@ -10,7 +10,7 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
   - x (int) : coordonnée x
   - y (int) : coordonnée y
   - parcourue (bool) : True si parcourue, sinon False
-  - [ ] getCoordonnéesEchec : renvoie les coordonnées de la case en format échiquier ([1, 6] -> 'a6')
+  - [x] getCoordonnéesEchec : renvoie les coordonnées de la case en format échiquier ([1, 6] -> 'a6')
   - [ ] ...
 - [ ] Créer une classe Échiquier (Cyprien)
   - un dictionnaire {case (Instance de Case) : list[Case] (liste de Case)}
