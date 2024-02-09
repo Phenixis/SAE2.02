@@ -1,18 +1,22 @@
 # coding: utf-8
+from Case import Case
 
 class Echiquier(object):
 
     def __init__(self, tailleX, tailleY):
-        """ initialise un objet graphe.
+        """ 
+        initialise un objet graphe.
 	    Si aucun dictionnaire n'est
 	    créé ou donné, on en utilisera un 
 	    vide
         """
         self.plateau = list()
         for x in range(1, tailleX+1):
+            liste = list()
             for y in range(1, tailleY+1):
-                self.plateau[x][y] = Case(x, y)
-        print(self.plateau)
+                liste.append(Case(x,y))
+            self.plateau.append(liste)
+        # print(self.plateau)
 
     def __iter__(self):
         self._iter_obj = iter(self._graphe_dict)
@@ -23,12 +27,10 @@ class Echiquier(object):
         return next(self._iter_obj)
 
     def __str__(self):
-        res = "sommets: "
-        for k in self._graphe_dict.keys():
-            res += str(k) + " "
-        res += "\naretes: "
-        for arete in self.__list_aretes():
-            res += str(arete) + " "
+        res = ""
+        for x in len(self.plateau) :
+            for y in len(self.plateau[x]) :
+                res += "[" + self.plateau[x].parcouru + "]"
         return res
     
     def aretes(self, sommet):
@@ -113,6 +115,5 @@ class Echiquier(object):
 
     
 
-e = Echiquier(7,7)
-
+e = Echiquier(8,8)
 print(e)

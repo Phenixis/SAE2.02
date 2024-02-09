@@ -16,18 +16,6 @@ class Case(object):
         return ALPHABET[self.x-1] + str(self.y)
 
 
-c1 = Case(2,4)
-print(c1)
-
-
-
-
-
-
-
-
-
-
 
 
 
