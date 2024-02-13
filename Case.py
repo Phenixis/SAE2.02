@@ -1,20 +1,19 @@
-ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+ALPHABET = " abcdefghijklmnopqrstuvwxyz"
 
 class Case(object):
     def __init__(self, x=0, y=0, parcouru=False):
         self.x = x
         self.y = y
-        self.parcouru = parcouru
+        self.indice = -1
     
     def __str__(self):
-        return self.getCoordonnéesEchec() + ": " + str(self.parcouru)
+        return self.getCoordonnéesEchec() + ": " + str(self.indice)
     
     def __repr__(self):
-        return f"[{'x' if self.parcouru else ' '}]"
+        return f"[{self.indice}]"
 
     def getCoordonnéesEchec(self) :
-        return ALPHABET[self.x-1] + str(self.y)
-
+        return ALPHABET[self.x+1] + str(self.y+1)
 
 
 

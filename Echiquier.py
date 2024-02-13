@@ -11,12 +11,10 @@ class Echiquier(object):
 	    vide
         """
         self.plateau = list()
-        for x in range(1, tailleX+1):
-            liste = list()
-            for y in range(1, tailleY+1):
-                liste.append(Case(x,y))
-            self.plateau.append(liste)
-        # print(self.plateau)
+        self.tailleX = tailleX
+        self.tailleY = tailleY
+
+        self.initPlateau()
 
     def __iter__(self):
         self._iter_obj = iter(self._graphe_dict)
@@ -28,10 +26,23 @@ class Echiquier(object):
 
     def __str__(self):
         res = ""
-        for x in len(self.plateau) :
-            for y in len(self.plateau[x]) :
-                res += "[" + self.plateau[x].parcouru + "]"
+        for ligne in self.plateau:
+            res += str(ligne) + "\n"
+            # for y in range(len(self.plateau[x])) :
+            #     res += "[" + str(int(self.plateau[x][y].parcouru)) + "]"
+            # res += "\n"
         return res
+
+    def initPlateau(self, val:bool=False):
+        self.plateau = []
+        for x in range(self.tailleX):
+            liste = list()
+            for y in range(self.tailleY):
+                liste.append(Case(x, y, val))
+            self.plateau.append(liste)
+    
+    def getCase(self, x: int, y: int):
+        return self.plateau[x][y]
     
     def aretes(self, sommet):
         """ retourne une liste de toutes les aretes d'un sommet"""
@@ -92,7 +103,7 @@ class Echiquier(object):
         while (i < len(voisins) and res[-1] != sommet_arr):
             voisin = voisins[i]
             if voisin not in chain:
-                print(voisin)
+                # print(voisin)
                 res = self.trouve_chaine(voisin, sommet_arr, chain + [voisin])
             i+=1
         
@@ -113,7 +124,43 @@ class Echiquier(object):
 
         return res
 
-    
+    def isPlein(self):
+        res = True
+        x = 0
 
-e = Echiquier(8,8)
-print(e)
+        while(res == True and x < len(self.plateau)):
+            y = 0
+            while(res == True and y < len(self.plateau[x])):
+                res = (self.plateau[x][y].indice != -1)
+                y += 1
+            x += 1
+        
+        return res
+        # return sum([sum(ligne) for ligne in self.plateau]) == self.tailleX*self.tailleY
+
+    def remplir(self):
+        self.initPlateau(True) 
+
+    def voisinsCavalierNonParcouru(self, case: Case):
+        result = []
+        # print(case)
+
+        for x, y in [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]:
+            if (self.voisinsCavalierValides(case.x+x, case.y+y)):
+                result.append([case.x+x, case.y+y])
+
+        # for deux in [-2, 2]:
+        #     for un in [-1, 1]:
+
+        #         if (self.voisinsCavalierValides(case.x+deux, case.y+un)):
+        #             result.append([case.x+deux, case.y+un])
+
+        #         if (self.voisinsCavalierValides(case.x+un, case.y+deux)):
+        #             result.append([case.x+un, case.y+deux])
+        
+        return result
+    
+    def voisinsCavalierValides(self, x, y):
+        return (0 <= x < 8 and 0 <= y < 8 and self.getCase(x, y).indice == -1)
+
+e = Echiquier(8, 8)

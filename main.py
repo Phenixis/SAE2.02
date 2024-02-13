@@ -1,26 +1,37 @@
-def dfs_path(g, start, end) -> list:
-    result = []
-    pred = dict()
-    pred[start] = None
-    stack = []
-    remaining = list(g.nodes)
-    stack.append(start)
-    remaining.remove(start)
-    found = False
-    current = None
-    while stack and not found:
-        current = stack.pop()
-        if current == end:
-            found = True
-        for n in g.neighbors(current):
-            if n in remaining:
-                stack.append(n)
-                if n not in pred:
-                    pred[n] = current
-                remaining.remove(n)
-    if found:
-        while current:
-            result = [current] + result
-            current = pred[current]
-        return result
-    return []
+from Chemin import *
+from Echiquier import *
+
+def dfs_path(g: Echiquier, start: tuple[int, int], chemin: list = []) -> bool:
+    """
+    Trouve un chemin dans g de start à end (sans refaire un chemin appartenant à all_chemin)
+    """
+    result = False
+    x, y = start
+    voisinsCavalier = g.voisinsCavalierNonParcouru(g.getCase(x, y))
+    # print(voisinsCavalier)
+
+    if chemin == []:
+        g.getCase(x, y).indice = 0
+
+    if (voisinsCavalier == [] and g.isPlein()):
+        result = True
+    else:
+        indVoisin = 0
+        while (indVoisin < len(voisinsCavalier) and result == False): # transformer en while pour opti
+            voisin = voisinsCavalier[indVoisin]
+            
+            if (g.getCase(voisin[0], voisin[1]) not in chemin):
+                g.getCase(voisin[0], voisin[1]).indice = len(chemin)
+                if dfs_path(g, voisin, chemin + [g.getCase(x, y)]):
+                    result = True
+                else:
+                    g.getCase(voisin[0], voisin[1]).indice = -1
+            
+            indVoisin+=1
+    # print(tab)
+
+    return result
+
+tab = Echiquier(8, 8)
+print(dfs_path(tab, [3, 4]))
+print(tab)

@@ -16,10 +16,11 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
   - un dictionnaire {case (Instance de Case) : list[Case] (liste de Case)}
   - [ ] Func : Pour chaque sommet, liste de liens vers un sommet joignable grâce à un mouvement de cavalier
   - [ ] ...
-- [ ] Créer une classe Chemin (Maxime)
-  - [ ] C'est un graphe
+- [x] Créer une classe Chemin (Maxime)
+  - [x] C'est un graphe
 - [ ] Créer une classe AllChemins (Maxime)
   - [ ] Tous les Chemin possibles à partir d'une case
+  - [ ] nécessaire ?
 - [ ] Créer un échiquier en console
 - [ ] Créer une fonction renvoyant les cases accessibles par un mouvement de cavalier
 - [ ] Créer le programme principal
