@@ -10,7 +10,7 @@ class Case(object):
         return self.getCoordonnéesEchec() + ": " + str(self.indice)
     
     def __repr__(self):
-        return f"[{self.indice}]"
+        return "{indice:2d}".format(indice = self.indice)
 
     def getCoordonnéesEchec(self) :
         return ALPHABET[self.x+1] + str(self.y+1)

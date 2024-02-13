@@ -161,6 +161,38 @@ class Echiquier(object):
         return result
     
     def voisinsCavalierValides(self, x, y):
-        return (0 <= x < 8 and 0 <= y < 8 and self.getCase(x, y).indice == -1)
+        return (0 <= x < self.tailleX and 0 <= y < self.tailleY and self.getCase(x, y).indice == -1)
 
-e = Echiquier(8, 8)
+    def dfs_path(self, start: tuple[int, int], chemin: list = []) -> bool:
+        """
+        Trouve un chemin dans l'échiquier à partir de start
+        """
+        result = False
+        x, y = start
+        voisinsCavalier = self.voisinsCavalierNonParcouru(self.getCase(x, y))
+
+        if chemin == []:
+            self.getCase(x, y).indice = 0
+        
+        if (voisinsCavalier == [] and self.isPlein()):
+            result = True
+            chemin.append(self.getCase(x, y))
+        else:
+            indVoisin = 0
+            while (indVoisin < len(voisinsCavalier) and result == False):
+                voisin = voisinsCavalier[indVoisin]
+                
+                if (self.getCase(voisin[0], voisin[1]) not in chemin):
+                    self.getCase(voisin[0], voisin[1]).indice = len(chemin)+1
+
+                    if self.dfs_path(voisin, chemin + [self.getCase(x, y)]):
+                        result = True
+                    else:
+                        self.getCase(voisin[0], voisin[1]).indice = -1
+                
+                indVoisin+=1
+        
+        if result == False and self.getCase(x, y).indice == 0:
+            self.getCase(x, y).indice = -1
+
+        return result
