@@ -1,5 +1,5 @@
 # coding: utf-8
-from Case import Case
+from Case import *
 
 class Echiquier(object):
 
@@ -25,13 +25,49 @@ class Echiquier(object):
         return next(self._iter_obj)
 
     def __str__(self):
-        res = ""
-        for ligne in self.plateau:
-            res += str(ligne) + "\n"
-            # for y in range(len(self.plateau[x])) :
-            #     res += "[" + str(int(self.plateau[x][y].parcouru)) + "]"
-            # res += "\n"
+        return self._str_tableau()
+    
+    def _str_tableau(self):
+        # res = "\t-" + ('-' * len(str(self.plateau[0][0])))*len(self.plateau[0]) + "\n" # ligne separation
+        # for i in range(len(self.plateau)):
+        #     ligne = self.plateau[i]
+        #     res += str(i) + "\t"
+        #     for case in ligne: # ligne
+        #         res += str(case)
+        #     res += "|\n\t" + '-' + ('-' * len(str(ligne[0])))*len(ligne) + "\n"
+        # return res
+        res = self._strIndicesColonne() + self._strLigneSep(0)
+        for i in range(len(self.plateau)):
+            res += self._strLigneTab(i+1, self.plateau[i])
+            res += self._strLigneSep(i+1)
         return res
+
+    def _strIndicesColonne(self) -> str:
+        res = "\t" + "".join([f"   {ALPHABET[i+1]} " for i in range((len(self.plateau)))]) + "\n"
+        # for i in range(len(self.plateau)):
+            # res += "  {indice:2d} ".format(indice = i+1)
+        # return res + "\n"
+        return res
+    
+    def _strLigneSep(self, indexLigne: int) -> str:
+        extremite = '+' if indexLigne in (0, len(self.plateau)) else '|'
+
+        croisement = '-' if indexLigne in (0, len(self.plateau)) else '+'
+
+        tirets = (('-' * (self._lenAffichageCase() - 1)) + croisement) * len(self.plateau[indexLigne-1]) 
+
+        return f"\t{extremite}{tirets}\b{extremite}\n"
+    
+    def _lenAffichageCase(self):
+        return len(str(self.plateau[0][0]))
+    
+
+    def _strLigneTab(self, index : int, ligne: list[int]) -> str:
+        res = str(index) + "\t"
+        for case in ligne: # ligne
+            res += str(case)
+
+        return res + "|\n"
 
     def initPlateau(self, val:bool=False):
         self.plateau = []
@@ -43,86 +79,6 @@ class Echiquier(object):
     
     def getCase(self, x: int, y: int):
         return self.plateau[x][y]
-    
-    def aretes(self, sommet):
-        """ retourne une liste de toutes les aretes d'un sommet"""
-        return self._graphe_dict[sommet]
-
-    def all_sommets(self):
-        """ retourne tous les sommets du graphe """
-        return self._graphe_dict.keys()
-
-    def all_aretes(self):
-        """ retourne toutes les aretes du graphe """
-        return self.__list_aretes()
-
-    def add_sommet(self, sommet):
-        """
-        Si le "sommet" n'set pas déjà présent
-        dans le graphe, on rajoute au dictionnaire 
-        une clé "sommet" avec une liste vide pour valeur. 
-        Sinon on ne fait rien.
-        """
-        if sommet not in self.all_sommets():
-            self._graphe_dict[sommet] = []
-
-    def add_arete(self, arete):
-        """
-        l'arete est de  type set, tuple ou list;
-        Entre deux sommets il peut y avoir plus
-	    d'une arete (multi-graphe)
-        """
-        dep, arr = arete
-
-        if dep in self.all_sommets():
-            if arr not in self.aretes(dep):
-                self._graphe_dict[dep].append(arr)
-                self.add_arete([arr, dep])
-
-    def __list_aretes(self):
-        """
-        Methode privée pour récupérer les aretes. 
-	    Une arete est un ensemble (set)
-        avec un (boucle) ou deux sommets.
-        """
-        # res = []
-        # for sommet in self.all_sommets():
-        #     for arete in self.aretes(sommet):
-        #         res.append([sommet, arete])
-        # return res
-        return [[[sommet, arete] for arete in self.aretes(sommet)] for sommet in self.all_sommets()]
-
-    def trouve_chaine(self, sommet_dep, sommet_arr, chain=None):
-        chain = [sommet_dep] if chain is None else chain
-        res = chain
-
-        # print(chain)
-
-        voisins = self.aretes(sommet_dep)
-        i = 0
-        while (i < len(voisins) and res[-1] != sommet_arr):
-            voisin = voisins[i]
-            if voisin not in chain:
-                # print(voisin)
-                res = self.trouve_chaine(voisin, sommet_arr, chain + [voisin])
-            i+=1
-        
-        return res
-
-
-    def trouve_toutes_chaines(self, sommet_dep, sommet_arr, sommets=[]):
-        res = []
-
-        if (sommet_dep == sommet_arr):
-            return [[sommet_dep]]
-        else:
-            for voisin in self.aretes(sommet_dep):
-                if voisin not in sommets:
-                    chemins = self.trouve_toutes_chaines(voisin, sommet_arr, sommets + [sommet_dep])
-                    for chemin in chemins:
-                        res.append([sommet_dep] + chemin)
-
-        return res
 
     def isPlein(self):
         res = True

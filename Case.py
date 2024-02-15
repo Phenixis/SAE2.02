@@ -1,4 +1,4 @@
-ALPHABET = " abcdefghijklmnopqrstuvwxyz"
+ALPHABET = " abcdefghijklmnopqrstuvwxyz".upper()
 
 class Case(object):
     def __init__(self, x=0, y=0, parcouru=False):
@@ -7,10 +7,10 @@ class Case(object):
         self.indice = -1
     
     def __str__(self):
-        return self.getCoordonnéesEchec() + ": " + str(self.indice)
+        return "| {indice:02d} ".format(indice = self.indice)
     
     def __repr__(self):
-        return "{indice:2d}".format(indice = self.indice)
+        return "|{indice:2d}|".format(indice = self.indice)
 
     def getCoordonnéesEchec(self) :
         return ALPHABET[self.x+1] + str(self.y+1)

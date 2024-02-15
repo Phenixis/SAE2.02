@@ -1,10 +1,13 @@
 from Chemin import *
 from Echiquier import *
 
-carre = 7
+carre = 8
 result = False
 
 tab = Echiquier(carre, carre)
+# tab.dfs_path([0, 0])
+print(tab)
+"""
 x, y = 0, 0
 while(x < carre and result == False):
     y = 0
@@ -17,3 +20,4 @@ while(x < carre and result == False):
             print(f"{x*y}: Impossible")
         y += 1
     x += 1
+"""
