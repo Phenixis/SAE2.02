@@ -1,11 +1,16 @@
 from Chemin import *
 from Echiquier import *
+from time import time
 
-carre = 8
+
+carre = 7
 result = False
 
 tab = Echiquier(carre, carre)
-# tab.dfs_path([0, 0])
+dep = time()
+tab.dfs_path([0, 0])
+end = time()
+print(f"Temps d'exécution : {end-dep}secs")
 print(tab)
 """
 x, y = 0, 0
@@ -14,10 +19,11 @@ while(x < carre and result == False):
     while (y < carre and result == False):
         print(f"Test pour {x}, {y}")
         result = tab.dfs_path([x, y])
-        if result:
-            print(tab)
-        else:
-            print(f"{x*y}: Impossible")
         y += 1
     x += 1
+
+if result:
+    print(tab)
+else:
+    print(f"{x*y}: Impossible")
 """
