@@ -1,4 +1,15 @@
-WIDTH = HEIGHT = 8
+WIDTH = HEIGHT = 6
+COUPS_CAVALIERS = [(-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2), (-1, -2)]
+
+def afficher_tableau(chemin):
+    tab = [[-1 for y in range(HEIGHT)] for x in range(WIDTH)]
+
+    if chemin:
+        for i in range(len(chemin)):
+            tab[chemin[i][0]][chemin[i][1]] = i
+
+    for ligne in tab:
+        print(ligne)
 
 def backtracking(x, y, chemin=None):
     if chemin == None:
@@ -8,31 +19,33 @@ def backtracking(x, y, chemin=None):
 
     if (len(chemin) == WIDTH*HEIGHT):
         return chemin
-
+    
     coups = coups_possible(x, y, chemin)
 
-    for coup in coups:
-        chemin_final = backtracking(coup[0], coup[1], chemin)
+    for next_coup in coups:
+        # print(f"({x}, {y}) > ({next_coup[0]}, {next_coup[1]}) = {len(chemin)} cases remplies")
+        # afficher_tableau(chemin)
+        # print("\n")
+        chemin_final = backtracking(next_coup[0], next_coup[1], chemin)
         if chemin_final:
             return chemin_final
     
-    chemin.pop
+    chemin.pop()
     return None
 
 def coups_possible(X, Y, chemin):
     result = []
 
-    for x, y in [[-2, -1], [-2, 1], [-1, 2], [1, 2], [2, 1], [2, -1], [1, -2], [-1, -2]]:
-        if (0 <= (X+x) < WIDTH and 0 <= (Y+y) < HEIGHT and (X+x, Y+y) not in chemin):
+    for x, y in COUPS_CAVALIERS:
+        if coup_possible(X+x, Y+y, chemin):
             result.append([X+x, Y+y])
     
     return result
 
-res = backtracking(0,0)
-tab = [[-1 for y in range(HEIGHT)] for x in range(WIDTH)]
+def coup_possible(x,  y, chemin):
+    return (0 <= x < WIDTH and 0 <= y < HEIGHT and (x, y) not in chemin)
 
-for i in range(len(res)):
-    tab[res[i][0]][res[i][1]] = i
+res = backtracking(5, 1)
+print(res)
 
-for ligne in tab:
-    print(ligne)
+afficher_tableau(res)
