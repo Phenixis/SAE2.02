@@ -48,12 +48,14 @@ Simple algorithme de backtracking dans [test.py](test.py) permettant de trouver 
 Utilisation de symétrie axiale pour optimiser les calculs : les chemins à partir du coin en haut à gauche sont les mêmes que ceux du coin en haut à droite après une symétrie axiale verticale. Ce principe fonctionne aussi avec une symétrie axiale horizontale et une symétrie centrale.
 Ainsi, il est possible de remplir l'entièreté de l'échiquier avec uniquement le quart supérieur droit.
 
-Le gain en calcul est représenté par ce système, avec `L` la longueur et `l` la largeur :
+Le gain en calcul est représenté par ce système, avec `L` la longueur et `H` la hauteur :
 
 ```math
 \begin{cases}
-x+y  &=2 \\
-x-3y &=4
+Si L et H sont pairs : \frac{(L/2)*(H/2)}{L*H}\\
+Si L est pair et H impair : \frac{(L/2)*((H/2)+1)}{L*H}\\
+Si L est impair et H pair : \frac{((L/2)+1)*(H/2)}{L*H}\\
+Si L et H sont impairs : \frac{\left\lfloor\dL/2\right\rfloor*\left\lfloor\dH/2\right\rfloor + \left\lfloor\dL/2\right\rfloor + \left\lfloor\dH/2\right\rfloor + 1}{L*H}
 \end{cases}
 ```
 
@@ -63,4 +65,4 @@ Lorsque l'échiquier est de côté paire, cela représente une division par 4 da
 Calculer le gain en nombres de calculs pour un échiquier de côté impaire est différent :
 Nous nous retrouvons obligé de calculer 
 
-(|L/2|*|l/2| + |L/2| + |l/2| + 1)/L*l
+(|L/2|*|H/2| + |L/2| + |H/2| + 1)/L*H
