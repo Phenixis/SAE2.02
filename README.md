@@ -55,7 +55,7 @@ Le gain en calcul est représenté par ce système, avec `L` la longueur et `H` 
 Si L et H sont pairs : \frac{(L/2)*(H/2)}{L*H}\\
 Si L est pair et H impair : \frac{(L/2)*((H/2)+1)}{L*H}\\
 Si L est impair et H pair : \frac{((L/2)+1)*(H/2)}{L*H}\\
-Si L et H sont impairs : \frac{\left\lfloorL/2\right\rfloor*\left\lfloorH/2\right\rfloor + \left\lfloorL/2\right\rfloor + \left\lfloorH/2\right\rfloor + 1}{L*H}
+Si L et H sont impairs : \frac{\lfloorL/2\rfloor*\lfloorH/2\rfloor + \lfloorL/2\rfloor + \lfloorH/2\rfloor + 1}{L*H}
 \end{cases}
 ```
 
