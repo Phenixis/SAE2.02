@@ -49,12 +49,14 @@ Utilisation de symétrie axiale pour optimiser les calculs : les chemins à part
 Ainsi, il est possible de remplir l'entièreté de l'échiquier avec uniquement le quart supérieur droit.
 
 Le gain en calcul est représenté par ce système, avec `L` la longueur et `l` la largeur :
-$$
+
+```math
 \begin{cases}
 x+y  &=2 \\
 x-3y &=4
 \end{cases}
-$$
+```
+
 
 Lorsque l'échiquier est de côté paire, cela représente une division par 4 dans le nombre de calcul (les calculs de symétrie étant négligeables).
 
