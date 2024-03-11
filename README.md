@@ -45,7 +45,7 @@ Affichage de l'échiquier, et du parcours du cavalier avec pygame
 ## Deuxième méthode
 
 Simple algorithme de backtracking dans [test.py](test.py) permettant de trouver tous les chemins à partir d'une case.
-Utilisation de symétrie axiale pour optimiser les calculs : les chemins à partir du coin en haut à gauche sont les mêmes que ceux du coin en haut à droite après une symétrie axiale verticale. Ce principe fonctionne aussi avec une symétrie axiale horizontale et une symétrie centrale.
+Utilisation de symétrie axiale pour optimiser les calculs : les chemins hamiltoniens du coin en haut à gauche sont les mêmes que ceux du coin en haut à droite après une symétrie axiale verticale. Ce principe fonctionne aussi avec une symétrie axiale horizontale et une symétrie centrale, qui simplement une symétrie axiale horizontale et verticale.
 Ainsi, il est possible de remplir l'entièreté de l'échiquier avec uniquement le quart supérieur droit.
 
 Le gain en calcul est représenté par ce système, avec `L` la longueur et `H` la hauteur :
@@ -58,11 +58,3 @@ Le gain en calcul est représenté par ce système, avec `L` la longueur et `H` 
 \text{Si L et H sont impairs :} \frac{\lfloor L/2 \rfloor * \lfloor H/2 \rfloor + \lfloor L/2 \rfloor + \lfloor H/2 \rfloor + 1}{L*H}
 \end{cases}
 ```
-
-
-Lorsque l'échiquier est de côté paire, cela représente une division par 4 dans le nombre de calcul (les calculs de symétrie étant négligeables).
-
-Calculer le gain en nombres de calculs pour un échiquier de côté impaire est différent :
-Nous nous retrouvons obligé de calculer 
-
-(|L/2|*|H/2| + |L/2| + |H/2| + 1)/L*H
