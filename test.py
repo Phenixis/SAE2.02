@@ -57,11 +57,15 @@ for x in range(ceil(WIDTH/2)) :
             print("Voici un chemin aléatoire parmi tous les chemins possibles : ")
             afficher_tableau(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))-1])
         print("Calcul de la symétrie")
-        tous_chemins[(symetrie_axiale_point_x(x), y)] = symetrie_axiale_chemins_x(res)
-        tous_chemins[(X, symetrie_axiale_chemin_y(y))] = symetrie_axiale_chemins_y(res)
-        
-        
 
+        if (x != ceil(WIDTH/2)): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)
+            tous_chemins[(symetrie_axiale_point_x(x), y)] = symetrie_axiale_tous_chemins_x(res)
+
+        if (y != ceil(HEIGHT/2)): # (0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)
+            tous_chemins[(x, symetrie_axiale_chemin_y(y))] = symetrie_axiale_tous_chemins_y(res)
+
+        if (x != ceil(WIDTH/2) and y != ceil(HEIGHT/2)): # (0, 0), (0, 1), (1, 0), (1, 1)
+            tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_chemin_y(y))] = symetrie_axiale_tous_chemins_x(symetrie_axiale_tous_chemins_y(res))
 
 # print(f"({x}, {y}) > ({next_coup[0]}, {next_coup[1]}) = {len(chemin)} cases remplies")
 # afficher_tableau(chemin)
@@ -79,8 +83,8 @@ def symetrie_axiale_chemin_x(chemin):
 def symetrie_axiale_chemin_y(chemin):
     ...
 
-def symetrie_axiale_chemins_x(chemins):
+def symetrie_axiale_tous_chemins_x(chemins):
     ...
 
-def symetrie_axiale_chemins_y(chemins):
+def symetrie_axiale_tous_chemins_y(chemins):
     ...
