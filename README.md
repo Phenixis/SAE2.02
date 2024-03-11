@@ -1,10 +1,12 @@
 # SAE 2.02
 
-## Étape 1
+## Premier méthode
+
+### Étape 1
 
 Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui va contenir tous les déplacements
 
-### Sous-étapes
+#### Sous-étapes
 
 - [ ] Créer une classe Case (Cyprien)
   - x (int) : coordonnée x
@@ -25,7 +27,7 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
 - [ ] Créer une fonction renvoyant les cases accessibles par un mouvement de cavalier
 - [ ] Créer le programme principal
 
-### PSC
+#### PSC
 
 1. Regarder les cases accessibles (par un mouvement de cavalier et jamais atteinte)
 2. Si matrice remplie, renvoyer vrai
@@ -36,7 +38,27 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
 4. Si le résultat de notre fonction jusqu'à maintenant est faux, renvoyer faux
 5. Sinon, renvoyer vrai 
 
-## Étape 2
+### Étape 2
 
 Affichage de l'échiquier, et du parcours du cavalier avec pygame
 
+## Deuxième méthode
+
+Simple algorithme de backtracking dans [test.py](test.py) permettant de trouver tous les chemins à partir d'une case.
+Utilisation de symétrie axiale pour optimiser les calculs : les chemins à partir du coin en haut à gauche sont les mêmes que ceux du coin en haut à droite après une symétrie axiale verticale. Ce principe fonctionne aussi avec une symétrie axiale horizontale et une symétrie centrale.
+Ainsi, il est possible de remplir l'entièreté de l'échiquier avec uniquement le quart supérieur droit.
+
+Le gain en calcul est représenté par ce système, avec `L` la longueur et `l` la largeur :
+$$
+\begin{cases}
+x+y  &=2 \\
+x-3y &=4
+\end{cases}
+$$
+
+Lorsque l'échiquier est de côté paire, cela représente une division par 4 dans le nombre de calcul (les calculs de symétrie étant négligeables).
+
+Calculer le gain en nombres de calculs pour un échiquier de côté impaire est différent :
+Nous nous retrouvons obligé de calculer 
+
+(|L/2|*|l/2| + |L/2| + |l/2| + 1)/L*l
