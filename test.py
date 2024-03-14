@@ -107,9 +107,9 @@ for x in range(ceil(WIDTH/2)) :
         print("Calcul de la symétrie fini")
 # Sens de remplissage
 # 0 est le backtracking initial
-# 1 est la symétrie axiale en X du premier `if` dans la boucle while
-# 2 est la symétrie axiale en Y du deuxième `if` dans la boucle while
-# 3 est la symétrie centrale du troisième `if` dans la boucle while
+# 1 est la symétrie axiale en X correspondant au premier `if` dans la boucle while
+# 2 est la symétrie axiale en Y correspondant au deuxième `if` dans la boucle while
+# 3 est la symétrie centrale correspondant au troisième `if` dans la boucle while
 #|0|0|0|1|1|
 #|0|0|0|1|1|
 #|0|0|0|1|1|
