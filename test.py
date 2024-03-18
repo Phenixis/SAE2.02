@@ -24,8 +24,6 @@ def backtracking(x, y, chemin=None, chemins=None):
 
     if (len(chemin) == WIDTH*HEIGHT and chemin not in chemins):
         chemins.append(chemin[:])
-        # afficher_tableau(chemin)
-        # print(f"Chemin {len(chemins)} ajoutés")
     
     coups = coups_possible(x, y, chemin)
 
