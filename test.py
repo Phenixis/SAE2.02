@@ -1,7 +1,8 @@
+from constants import *
 from random import randint
 from math import ceil
 
-WIDTH = HEIGHT = 5
+WIDTH = HEIGHT = C_SIDE_CASES
 COUPS_CAVALIERS = [(-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2), (-1, -2)]
 
 def afficher_tableau(chemin):
@@ -77,32 +78,33 @@ def symetrie_axiale_chemin_y(chemin):
 #         res.append(symetrie_axiale_chemin_y(chemin))
 #     return res
 
-tous_chemins = {(x, y): [] for x in range(WIDTH) for y in range(HEIGHT)}
+def get_tous_chemins():
+    tous_chemins = {(x, y): [] for x in range(WIDTH) for y in range(HEIGHT)}
 
-for x in range(ceil(WIDTH/2)) :
-    for y in range(ceil(HEIGHT/2)) :
-        print("backtracking...")
-        res = backtracking(x, y)
-        print("backtracking fini")
-        tous_chemins[(x, y)] = res[:]
+    for x in range(ceil(WIDTH/2)) :
+        for y in range(ceil(HEIGHT/2)) :
+            print("backtracking...")
+            res = backtracking(x, y)
+            print("backtracking fini")
+            tous_chemins[(x, y)] = res[:]
 
-        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
-        if len(tous_chemins[(x, y)]) != 0:
-            print("Voici un chemin aléatoire parmi tous les chemins possibles : ")
-            afficher_tableau(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))-1])
+            print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
+            if len(tous_chemins[(x, y)]) != 0:
+                print("Voici un chemin aléatoire parmi tous les chemins possibles : ")
+                afficher_tableau(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))-1])
 
-        print("Calcul de la symétrie...")
-        for chemin in res:
-            if (x != ceil(WIDTH/2)-WIDTH%2): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2) # WIDTH%2 car lorsque WIDTH est impair, on ne doit pas prendre la symétrie axiale de la colonne du milieu, ce qui correspond à la valeur de cette formule(`ceil(WIDTH/2)-WIDTH%2`)
-                tous_chemins[(symetrie_axiale_point_x(x), y)].append(symetrie_axiale_chemin_x(chemin))
+            print("Calcul de la symétrie...")
+            for chemin in res:
+                if (x != ceil(WIDTH/2)-WIDTH%2): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2) # WIDTH%2 car lorsque WIDTH est impair, on ne doit pas prendre la symétrie axiale de la colonne du milieu, ce qui correspond à la valeur de cette formule(`ceil(WIDTH/2)-WIDTH%2`)
+                    tous_chemins[(symetrie_axiale_point_x(x), y)].append(symetrie_axiale_chemin_x(chemin))
 
-            if (y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1) # HEIGHT%2 car lorsque HEIGHT est impair, on ne doit pas prendre la symétrie axiale de la ligne du milieu, ce qui correspond à la valeur de cette formule(`ceil(HEIGHT/2)-HEIGHT%2`)
-                tous_chemins[(x, symetrie_axiale_point_y(y))].append(symetrie_axiale_chemin_y(chemin))
+                if (y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1) # HEIGHT%2 car lorsque HEIGHT est impair, on ne doit pas prendre la symétrie axiale de la ligne du milieu, ce qui correspond à la valeur de cette formule(`ceil(HEIGHT/2)-HEIGHT%2`)
+                    tous_chemins[(x, symetrie_axiale_point_y(y))].append(symetrie_axiale_chemin_y(chemin))
 
-            if (x != ceil(WIDTH/2)-WIDTH%2 and y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1)
-                tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_point_y(y))].append(symetrie_axiale_chemin_x(symetrie_axiale_chemin_y(chemin)))
-        
-        print("Calcul de la symétrie fini")
+                if (x != ceil(WIDTH/2)-WIDTH%2 and y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1)
+                    tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_point_y(y))].append(symetrie_axiale_chemin_x(symetrie_axiale_chemin_y(chemin)))
+            
+            print("Calcul de la symétrie fini")
 # Sens de remplissage
 # 0 est le backtracking initial
 # 1 est la symétrie axiale en X correspondant au premier `if` dans la boucle while
@@ -114,9 +116,9 @@ for x in range(ceil(WIDTH/2)) :
 #|2|2|2|3|3|
 #|2|2|2|3|3|
 
-for key in tous_chemins.keys():
-    x, y = key
-    print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
+    for key in tous_chemins.keys():
+        x, y = key
+        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
 
 # === Vérification des fonctions de symétrie ===
 
