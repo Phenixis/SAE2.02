@@ -2,7 +2,8 @@ from constants import *
 from random import randint
 from math import ceil
 
-WIDTH = HEIGHT = C_SIDE_CASES
+WIDTH = C_WIDTH
+HEIGHT = C_HEIGHT
 COUPS_CAVALIERS = [(-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2), (-1, -2)]
 
 def afficher_tableau(chemin):
@@ -25,6 +26,7 @@ def backtracking(x, y, chemin=None, chemins=None):
 
     if (len(chemin) == WIDTH*HEIGHT and chemin not in chemins):
         chemins.append(chemin[:])
+        # print(chemin[:])
     
     coups = coups_possible(x, y, chemin)
 
@@ -105,6 +107,10 @@ def get_tous_chemins():
                     tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_point_y(y))].append(symetrie_axiale_chemin_x(symetrie_axiale_chemin_y(chemin)))
             
             print("Calcul de la symétrie fini")
+    
+    for key in tous_chemins.keys():
+        x, y = key
+        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
 # Sens de remplissage
 # 0 est le backtracking initial
 # 1 est la symétrie axiale en X correspondant au premier `if` dans la boucle while
@@ -116,9 +122,6 @@ def get_tous_chemins():
 #|2|2|2|3|3|
 #|2|2|2|3|3|
 
-    for key in tous_chemins.keys():
-        x, y = key
-        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
 
 # === Vérification des fonctions de symétrie ===
 
