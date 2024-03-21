@@ -10,6 +10,9 @@ from math import ceil
 WIDTH = C_WIDTH
 HEIGHT = C_HEIGHT
 
+Chemin = []
+Chemins = []
+
 def afficher_tableau(chemin):
     """
     Fonction qui affiche le chemin dans un échiquier dans la console (utilisé pour debug)
@@ -23,27 +26,24 @@ def afficher_tableau(chemin):
     for ligne in tab:
         print(ligne)
 
-def backtrackingChemin(x, y, chemin=None, chemins=None):
+def backtrackingChemin(x, y):
     """
     Fonction qui utilise un algorithme de backtracking (DFS) pour trouver tous les chemins hamiltoniens selon les déplacements d'un cavalier dans un échiquier rectangulaire donné
     """
-    if chemin is None:
-        chemin = []
-    if chemins is None:
-        chemins = []
     
-    chemin.append((x, y))
-
-    if (len(chemin) == WIDTH*HEIGHT and chemin not in chemins):
-        chemins.append(chemin[:])
+    Chemin.append((x, y))
     
-    coups = coups_possibles_chemin(x, y, chemin)
+    if (len(Chemin) == WIDTH*HEIGHT and Chemin not in Chemins):
+        Chemins.append(Chemin[:])
+    
+    coups = coups_possibles_chemin(x, y, Chemin)
 
     for next_coup in coups:
-        chemins = backtrackingChemin(next_coup[0], next_coup[1], chemin, chemins)
+        backtrackingChemin(next_coup[0], next_coup[1])
 
-    chemin.pop()
-    return chemins
+    Chemin.pop()
+    if (len(Chemin) == 0):
+        return Chemins[:]
 
 def backtrackingTour(x, y, chemin=None, chemins=None):
     """
@@ -128,6 +128,7 @@ def symetrie_axiale_chemin_x(chemin):
     Fonction qui renvoie la symétrie axiale verticale de tous les points du chemins
     """
     res = []
+    print(chemin)
     for point in chemin:
         x,y = point
         res.append((symetrie_axiale_point_x(x), y))
@@ -173,14 +174,15 @@ def get_tous_chemins(func=backtrackingChemin, verbose=False):
 
             if verbose:
                 print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
+            
             if len(tous_chemins[(x, y)]) != 0:
                 if verbose:
                     print("Voici un chemin aléatoire parmi tous les chemins possibles : ")
-                afficher_tableau(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))-1])
+                    afficher_tableau(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))-1])
 
             if verbose:
                 print("Calcul de la symétrie...")
-            for chemin in res:
+            for chemin in res[:]:
                 if (x != ceil(WIDTH/2)-WIDTH%2): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2) # WIDTH%2 car lorsque WIDTH est impair, on ne doit pas prendre la symétrie axiale de la colonne du milieu, ce qui correspond à la valeur de cette formule(`ceil(WIDTH/2)-WIDTH%2`)
                     tous_chemins[(symetrie_axiale_point_x(x), y)].append(symetrie_axiale_chemin_x(chemin))
 
@@ -193,9 +195,9 @@ def get_tous_chemins(func=backtrackingChemin, verbose=False):
             if verbose:
                 print("Calcul de la symétrie fini")
     
-    for key in tous_chemins.keys():
-        x, y = key
-        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
+    # for key in tous_chemins.keys():
+    #     x, y = key
+    #     print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
 
 
 """ PLUS D'INFORMATIONS :
@@ -328,3 +330,4 @@ Sens de remplissage
 # res = sorted(res)
 # res_awaited = sorted(res_awaited)
 # print(res == res_awaited)
+
