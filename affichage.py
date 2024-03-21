@@ -109,7 +109,7 @@ while running:
                     pg.display.flip()
                     if (tous_chemins[(x, y)] is None):
                         debut = time()
-                        tous_chemins[(x, y)] = backtracking(x, y)
+                        tous_chemins[(x, y)] = backtrackingTour(x, y)
                         duree = time() - debut
                         log(screen, "Tps d'exécution : {:.2f}s".format(duree), nb_log)
                         nb_log += 1

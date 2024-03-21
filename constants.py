@@ -19,8 +19,8 @@ W_PADDING = 20
 C_SIDE_MAX = W_HEIGHT-(W_PADDING*2) # Taille maximale de l'échiquier
 C_BORDER = 3 # Épaisseur de la bordure
 
-C_WIDTH = 5 # Nombre de cases dans la largeur (les x)
-C_HEIGHT = 5 # Nombre de cases dans la hauteur (les y)
+C_WIDTH = 8 # Nombre de cases dans la largeur (les x)
+C_HEIGHT = 8 # Nombre de cases dans la hauteur (les y)
 
 C_CASE_LENGTH = C_SIDE_MAX//C_WIDTH if C_SIDE_MAX//C_WIDTH <= C_SIDE_MAX//C_HEIGHT else C_SIDE_MAX//C_HEIGHT # Calcul de la taille d'une case en prenant le minimum parmi les deux tailles possibles
 

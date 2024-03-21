@@ -23,7 +23,7 @@ def afficher_tableau(chemin):
     for ligne in tab:
         print(ligne)
 
-def backtracking(x, y, chemin=None, chemins=None):
+def backtrackingChemin(x, y, chemin=None, chemins=None):
     """
     Fonction qui utilise un algorithme de backtracking (DFS) pour trouver tous les chemins hamiltoniens selon les déplacements d'un cavalier dans un échiquier rectangulaire donné
     """
@@ -37,31 +37,79 @@ def backtracking(x, y, chemin=None, chemins=None):
     if (len(chemin) == WIDTH*HEIGHT and chemin not in chemins):
         chemins.append(chemin[:])
     
-    coups = coups_possibles(x, y, chemin)
+    coups = coups_possibles_chemin(x, y, chemin)
 
     for next_coup in coups:
-        chemins = backtracking(next_coup[0], next_coup[1], chemin, chemins)
+        chemins = backtrackingChemin(next_coup[0], next_coup[1], chemin, chemins)
 
     chemin.pop()
     return chemins
 
-def coups_possibles(X, Y, chemin):
+def backtrackingTour(x, y, chemin=None, chemins=None):
     """
-    Fonction qui renvoie une liste des coordonnées des cases auxquelles le cavalier peut se rendre
+    Fonction qui utilise un algorithme de backtracking (DFS) pour trouver tous les tours hamiltoniens selon les déplacements d'un cavalier dans un échiquier rectangulaire donné
+    """
+    if chemin is None:
+        chemin = []
+    if chemins is None:
+        chemins = []
+    
+    chemin.append((x, y))
+
+    if (len(chemin) == (WIDTH*HEIGHT) and chemin not in chemins):
+        if (chemin[0] in coups_possibles_tour(x, y, [])):
+           print(chemin[:] + [chemin[0]])
+           chemins.append(chemin[:] + [chemin[0]])
+    
+    coups = coups_possibles_tour(x, y, chemin)
+
+    for next_coup in coups:
+        chemins = backtrackingTour(next_coup[0], next_coup[1], chemin, chemins)
+
+    chemin.pop()
+    return chemins
+
+def coups_possibles_chemin(X, Y, chemin):
+    """
+    Fonction qui renvoie une liste des coordonnées des cases auxquelles le cavalier peut se rendre pour un chemin hamiltonien
     """
     result = []
 
     for x, y in COUPS_CAVALIERS:
-        if case_valide(X+x, Y+y, chemin):
+        if case_valide_chemin(X+x, Y+y, chemin):
             result.append([X+x, Y+y])
     
     return result
 
-def case_valide(x,  y, chemin):
+def coups_possibles_tour(X, Y, chemin):
+    """
+    Fonction qui renvoie une liste des coordonnées des cases auxquelles le cavalier peut se rendre pour un tour hamiltonien
+    """
+    result = []
+
+    for x, y in COUPS_CAVALIERS:
+        if case_valide_tour(X+x, Y+y, chemin):
+            result.append([X+x, Y+y])
+    
+    return result
+
+def case_valide_chemin(x,  y, chemin):
     """
     Fonction qui renvoie `True` si la case est dans l'échiquier et hors du chemin. Renvoie `False` sinon
     """
     return (0 <= x < WIDTH and 0 <= y < HEIGHT and (x, y) not in chemin)
+
+def case_valide_tour(x,  y, chemin):
+    """
+    Fonction qui renvoie `True` si la case est dans l'échiquier et hors du tour sauf pour la dernière case qui doit revenir au point de départ. Renvoie `False` sinon
+    """
+    res = False
+    if (len(chemin) == (WIDTH*HEIGHT)):
+        res = (0 <= x < WIDTH and 0 <= y < HEIGHT and (x, y) == chemin[0])
+    else:
+        res = (0 <= x < WIDTH and 0 <= y < HEIGHT and (x, y) not in chemin)
+    return res
+        
 
 def symetrie_axiale_point_x(x):
     """
@@ -107,7 +155,7 @@ def symetrie_axiale_chemin_y(chemin):
 #         res.append(symetrie_axiale_chemin_y(chemin))
 #     return res
 
-def get_tous_chemins(verbose=False):
+def get_tous_chemins(func=backtrackingChemin, verbose=False):
     tous_chemins = {(x, y): [] for x in range(WIDTH) for y in range(HEIGHT)}
 
     for x in range(ceil(WIDTH/2)) :
@@ -116,10 +164,11 @@ def get_tous_chemins(verbose=False):
             if verbose:
                 print("backtracking...")
 
-            res = backtracking(x, y)
+            res = func(x, y)
 
             if verbose:
                 print("backtracking fini")
+            
             tous_chemins[(x, y)] = res[:]
 
             if verbose:
@@ -144,10 +193,9 @@ def get_tous_chemins(verbose=False):
             if verbose:
                 print("Calcul de la symétrie fini")
     
-    if verbose:
-        for key in tous_chemins.keys():
-            x, y = key
-            print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
+    for key in tous_chemins.keys():
+        x, y = key
+        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
 
 
 """ PLUS D'INFORMATIONS :
@@ -170,8 +218,8 @@ Sens de remplissage
 # === Vérification des fonctions de symétrie ===
 
 # # === Symétrie Axiale En X ===
-# init = backtracking(0, 0)
-# res_awaited = backtracking(4, 0)
+# init = backtrackingChemin(0, 0)
+# res_awaited = backtrackingChemin(4, 0)
 
 # res = symetrie_axiale_tous_chemins_x(init)
 
@@ -191,7 +239,7 @@ Sens de remplissage
 
 
 # # === Symétrie Axiale En Y ===
-# res_awaited = backtracking(0, 4)
+# res_awaited = backtrackingChemin(0, 4)
 
 # res = symetrie_axiale_tous_chemins_y(init)
 
@@ -202,8 +250,8 @@ Sens de remplissage
 #     result = re fonctions de symétrie ===
 
 # # === Symétrie Axiale En X ===
-# init = backtracking(0, 0)
-# res_awaited = backtracking(4, 0)
+# init = backtrackingChemin(0, 0)
+# res_awaited = backtrackingChemin(4, 0)
 
 # res = symetrie_axiale_tous_chemins_x(init)
 
@@ -223,7 +271,7 @@ Sens de remplissage
 
 
 # # === Symétrie Axiale En Y ===
-# res_awaited = backtracking(0, 4)
+# res_awaited = backtrackingChemin(0, 4)
 
 # res = symetrie_axiale_tous_chemins_y(init)
 
@@ -243,7 +291,7 @@ Sens de remplissage
 
 
 # # === Symétrie Centrale (Axiale en X et en Y) ===
-# res_awaited = backtracking(4, 4)
+# res_awaited = backtrackingChemin(4, 4)
 
 # res = symetrie_axiale_tous_chemins_x(symetrie_axiale_tous_chemins_y(init))
 
@@ -263,7 +311,7 @@ Sens de remplissage
 
 
 # # === Symétrie Centrale (Axiale en X et en Y) ===
-# res_awaited = backtracking(4, 4)
+# res_awaited = backtrackingChemin(4, 4)
 
 # res = symetrie_axiale_tous_chemins_x(symetrie_axiale_tous_chemins_y(init))
 
@@ -280,3 +328,5 @@ Sens de remplissage
 # res = sorted(res)
 # res_awaited = sorted(res_awaited)
 # print(res == res_awaited)
+
+get_tous_chemins(backtrackingTour, True)
