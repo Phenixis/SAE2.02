@@ -328,5 +328,3 @@ Sens de remplissage
 # res = sorted(res)
 # res_awaited = sorted(res_awaited)
 # print(res == res_awaited)
-
-get_tous_chemins(backtrackingTour, True)

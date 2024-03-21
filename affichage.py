@@ -109,10 +109,20 @@ while running:
                     pg.display.flip()
                     if (tous_chemins[(x, y)] is None):
                         debut = time()
-                        tous_chemins[(x, y)] = backtrackingTour(x, y)
+                        chemin = backtrackingTour(x, y)
                         duree = time() - debut
+                        tous_chemins[(x, y)] = chemin[:]
                         log(screen, "Tps d'exécution : {:.2f}s".format(duree), nb_log)
                         nb_log += 1
+
+                        if (x != ceil(WIDTH/2)-WIDTH%2): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2) # WIDTH%2 car lorsque WIDTH est impair, on ne doit pas prendre la symétrie axiale de la colonne du milieu, ce qui correspond à la valeur de cette formule(`ceil(WIDTH/2)-WIDTH%2`)
+                            tous_chemins[(symetrie_axiale_point_x(x), y)] = symetrie_axiale_chemin_x(chemin)
+
+                        if (y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1) # HEIGHT%2 car lorsque HEIGHT est impair, on ne doit pas prendre la symétrie axiale de la ligne du milieu, ce qui correspond à la valeur de cette formule(`ceil(HEIGHT/2)-HEIGHT%2`)
+                            tous_chemins[(x, symetrie_axiale_point_y(y))] = symetrie_axiale_chemin_y(chemin)
+
+                        if (x != ceil(WIDTH/2)-WIDTH%2 and y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1)
+                            tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_point_y(y))] = symetrie_axiale_chemin_x(symetrie_axiale_chemin_y(chemin))
 
 
                     log(screen, f"({x}, {y}) : {len(tous_chemins[(x, y)])} chemins", nb_log)
