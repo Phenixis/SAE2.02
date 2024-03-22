@@ -116,6 +116,7 @@ while running:
 
                         log(screen, "Tps d'exécution : {:.2f}s".format(duree), nb_log)
                         nb_log += 1
+                        
                         for chemin in chemins:
                             if (x != ceil(WIDTH/2)-WIDTH%2): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2) # WIDTH%2 car lorsque WIDTH est impair, on ne doit pas prendre la symétrie axiale de la colonne du milieu, ce qui correspond à la valeur de cette formule(`ceil(WIDTH/2)-WIDTH%2`)
                                 tous_chemins[(symetrie_axiale_point_x(x), y)] = symetrie_axiale_chemin_x(chemin)
