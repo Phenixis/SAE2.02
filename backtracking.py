@@ -43,7 +43,9 @@ def backtrackingChemin(x, y):
 
     Chemin.pop()
     if (len(Chemin) == 0):
-        return Chemins[:]
+        res = Chemins[:]
+        Chemins.clear()
+        return res
 
 def backtrackingTour(x, y, chemin=None, chemins=None):
     """
@@ -128,7 +130,6 @@ def symetrie_axiale_chemin_x(chemin):
     Fonction qui renvoie la symétrie axiale verticale de tous les points du chemins
     """
     res = []
-    print(chemin)
     for point in chemin:
         x,y = point
         res.append((symetrie_axiale_point_x(x), y))
@@ -176,7 +177,7 @@ def get_tous_chemins(func=backtrackingChemin, verbose=False):
                 print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
             
             if len(tous_chemins[(x, y)]) != 0:
-                if verbose:
+                if verbose and False:
                     print("Voici un chemin aléatoire parmi tous les chemins possibles : ")
                     afficher_tableau(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))-1])
 
@@ -195,9 +196,9 @@ def get_tous_chemins(func=backtrackingChemin, verbose=False):
             if verbose:
                 print("Calcul de la symétrie fini")
     
-    # for key in tous_chemins.keys():
-    #     x, y = key
-    #     print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
+    for key in tous_chemins.keys():
+        x, y = key
+        print(f"La case ({x}, {y}) a {len(tous_chemins[(x, y)])} chemins hamiltoniens heuristiques")
 
 
 """ PLUS D'INFORMATIONS :
@@ -331,3 +332,4 @@ Sens de remplissage
 # res_awaited = sorted(res_awaited)
 # print(res == res_awaited)
 
+get_tous_chemins(verbose=True)
