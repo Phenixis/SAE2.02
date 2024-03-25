@@ -4,6 +4,7 @@ from time import sleep, time
 
 RAD_DEG_CONVERTER = 57.2958 # 1 radian = 57.2958 degrés
 COUPS_CAVALIERS = ((-2, -1), (-2, 1), (-1, 2), (1, 2), (2, 1), (2, -1), (1, -2), (-1, -2)) # déplacements possibles du cavaliers
+LOG_LIMIT = 11
 
 # Couleurs
 GREY = (222, 222, 222)

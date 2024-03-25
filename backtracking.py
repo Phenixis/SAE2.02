@@ -332,4 +332,4 @@ Sens de remplissage
 # res_awaited = sorted(res_awaited)
 # print(res == res_awaited)
 
-get_tous_chemins(verbose=True)
+# get_tous_chemins(verbose=True)

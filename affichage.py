@@ -63,22 +63,22 @@ def titre(screen, text=f"Échiquier {C_WIDTH}x{C_HEIGHT}", dest=(5, 25)):
     """
     screen.blit(pg.font.Font("./open-sans/OpenSans-Bold.ttf", 50).render(text, False, BLACK), dest)
 
-def log(screen, text, nb_log):
+def log(screen, text):
     """
     Fonction qui affiche un texte à gauche de la fenêtre en dessous du titre
     """
-    if nb_log == 0:
+    if len(logs)%LOG_LIMIT == 0:
         pg.draw.rect(screen, GREY, pg.Rect(5, 125, 350, 550))
         pg.draw.rect(screen, BLACK, pg.Rect(5, 125, 350, 550), C_BORDER)
-    screen.blit(pg.font.Font("./open-sans/OpenSans-Regular.ttf", 30).render(text, False, BLACK), (10, 125+nb_log*50))
-
+    screen.blit(pg.font.Font("./open-sans/OpenSans-Regular.ttf", 30).render(text, False, BLACK), (10, 125+(len(logs)%LOG_LIMIT)*50))
+    logs.append(text)
 
 pg.init() # Initialisation de pygame
 screen = pg.display.set_mode((W_WIDTH, W_HEIGHT)) # Création de l'écran
 clock = pg.time.Clock() # Création d'une horloge pour limiter les FPS
 
 running = True 
-nb_log = 0 
+logs = []
 
 # Dessin des premiers traits
 screen.fill(GREY) # Remplissage de l'écran
@@ -113,29 +113,15 @@ while running:
                         chemins = backtrackingChemin(x, y)
                         duree = time() - debut
 
-                        log(screen, "Tps d'exécution : {:.2f}s".format(duree), nb_log)
-                        nb_log += 1
+                        log(screen, "Tps d'exécution : {:.2f}s".format(duree))
 
                         tous_chemins[(x, y)] = chemins[:]
                         tous_chemins[(symetrie_axiale_point_x(x), y)] = [symetrie_axiale_chemin_x(chemin) for chemin in chemins[:]]
                         tous_chemins[(x, symetrie_axiale_point_y(y))] = [symetrie_axiale_chemin_y(chemin) for chemin in chemins[:]]
                         tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_point_y(y))] = [symetrie_axiale_chemin_x(symetrie_axiale_chemin_y(chemin)) for chemin in chemins[:]]
 
-                        # for chemin in chemins:
-                        #     if (x != ceil(WIDTH/2)-WIDTH%2): # (0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2) # WIDTH%2 car lorsque WIDTH est impair, on ne doit pas prendre la symétrie axiale de la colonne du milieu, ce qui correspond à la valeur de cette formule(`ceil(WIDTH/2)-WIDTH%2`)
-                        #         tous_chemins[(symetrie_axiale_point_x(x), y)] = symetrie_axiale_chemin_x(chemin)
 
-                        #     if (y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1) # HEIGHT%2 car lorsque HEIGHT est impair, on ne doit pas prendre la symétrie axiale de la ligne du milieu, ce qui correspond à la valeur de cette formule(`ceil(HEIGHT/2)-HEIGHT%2`)
-                        #         tous_chemins[(x, symetrie_axiale_point_y(y))] = symetrie_axiale_chemin_y(chemin)
-
-                        #     if (x != ceil(WIDTH/2)-WIDTH%2 and y != ceil(HEIGHT/2)-HEIGHT%2): # (0, 0), (0, 1), (1, 0), (1, 1)
-                        #         tous_chemins[(symetrie_axiale_point_x(x), symetrie_axiale_point_y(y))] = symetrie_axiale_chemin_x(symetrie_axiale_chemin_y(chemin))
-
-
-                    log(screen, f"({x}, {y}) : {len(tous_chemins[(x, y)])} chemins", nb_log)
-                    nb_log += 1
-                    if (nb_log == 11):
-                        nb_log = 0
+                    log(screen, f"({x}, {y}) : {len(tous_chemins[(x, y)])} chemin{'s' if len(tous_chemins[(x, y)]) > 0 else ''}")
 
                     if (len(tous_chemins[(x, y)])):
                         affiche_chemin(tous_chemins[(x, y)][randint(0, len(tous_chemins[(x, y)]))], chessboard_cases, screen)
@@ -151,3 +137,5 @@ while running:
     clock.tick(60)
 
 pg.quit()
+for i in range(len(logs)):
+    print(f"Log n°{i} : {logs[i]}")
