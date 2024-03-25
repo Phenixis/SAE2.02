@@ -3,7 +3,7 @@ from Echiquier import *
 from time import time
 
 
-carre = 7
+carre = 6
 result = False
 
 tab = Echiquier(carre, carre)

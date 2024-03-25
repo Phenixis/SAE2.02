@@ -333,3 +333,23 @@ Sens de remplissage
 # print(res == res_awaited)
 
 # get_tous_chemins(verbose=True)
+
+def preuve_symétrie():
+    x = 0
+    y = 0
+
+    chemins_du_point_originel = backtrackingChemin(x,y) # tous les chemins à partir du coin supérieur gauche 
+    chemins_du_point_symetrique = backtrackingChemin(symetrie_axiale_point_x(x), y) # tous les chemins à partir du coin supérieur droit, le point obtenu après une symétrie axiale verticale du point supérieur gauche
+
+    chemins_apres_symetrie = []
+    for chemin in chemins_du_point_originel: # pour tous les chemins du coin à partir du coin supérieur gauche
+        chemins_apres_symetrie.append(symetrie_axiale_chemin_x(chemin)) # appliquer une symétrie axiale en x à tous les points du chemin et l'enregistrer dans la liste
+    
+    # on trie les deux listes
+    chemins_apres_symetrie = sorted(chemins_apres_symetrie) 
+    chemins_du_point_symetrique = sorted(chemins_du_point_symetrique)
+
+    if chemins_apres_symetrie == chemins_du_point_symetrique:
+        print(f"La symétrie axiale verticale des chemins partant du point ({x}, {y}) est égale à la liste des chemins à partir du point ({symetrie_axiale_point_x(x)}, {y}).")
+    else:
+        print(f"La symétrie axiale verticale des chemins partant du point ({x}, {y}) est différente à la liste des chemins à partir du point ({symetrie_axiale_point_x(x)}, {y}).")
