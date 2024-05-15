@@ -1,6 +1,6 @@
 # SAE 2.02
 
-## Premier méthode
+## Première méthode
 
 ### Étape 1
 
@@ -42,7 +42,7 @@ Créer l'algorithme DFS de backtracking et renvoyé une instance de Chemin qui v
 
 Affichage de l'échiquier, et du parcours du cavalier avec pygame
 
-## Deuxième méthode
+## Seconde méthode
 
 Simple algorithme de backtracking dans [test.py](test.py) permettant de trouver tous les chemins à partir d'une case.
 Utilisation de symétrie axiale pour optimiser les calculs : les chemins hamiltoniens du coin en haut à gauche sont les mêmes que ceux du coin en haut à droite après une symétrie axiale verticale. Ce principe fonctionne aussi avec une symétrie axiale horizontale et une symétrie centrale, qui simplement une symétrie axiale horizontale et verticale.
